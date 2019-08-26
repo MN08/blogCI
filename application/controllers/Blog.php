@@ -21,7 +21,7 @@ class Blog extends CI_Controller
 
     public function detail($url)
     {
-        $query = $this->Blog_model->getDetail($url);
+        $query = $this->Blog_model->getDetail('url', $url);
         $data['blog'] = $query->row_array();
 
         $this->load->view('detail', $data);
@@ -32,6 +32,7 @@ class Blog extends CI_Controller
         if ($this->input->post()) {
             $data['title'] = $this->input->post('title');
             $data['content'] = $this->input->post('content');
+            $data['url'] = $this->input->post('url');
 
             $id =  $this->Blog_model->insertBlog($data);
             if ($id) {
@@ -42,5 +43,33 @@ class Blog extends CI_Controller
         }
 
         $this->load->view('insertFrom');
+    }
+
+    public function edit($id)
+    {
+
+        $query = $this->Blog_model->getDetail('id', $id);
+        $data['blog'] = $query->row_array();
+
+        if ($this->input->post()) {
+            $udata['title'] = $this->input->post('title');
+            $udata['content'] = $this->input->post('content');
+            $udata['url'] = $this->input->post('url');
+
+            $id =  $this->Blog_model->updateBlog($id, $udata);
+            if ($id) {
+                echo "EDIT BLOG SUCCESS";
+            } else {
+                echo "EDIT BLOG FAILED";
+            }
+        }
+
+        $this->load->view('editArticle', $data);
+    }
+
+    public function delete($id)
+    {
+        $this->Blog_model->deleteBlog($id);
+        redirect('/');
     }
 }
