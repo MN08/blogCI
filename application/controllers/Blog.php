@@ -36,7 +36,7 @@ class Blog extends CI_Controller
 
             $id =  $this->Blog_model->insertBlog($data);
             if ($id) {
-                echo "EDIT BLOG SUCCESS";
+                echo "ADD BLOG SUCCESS";
                 redirect('/');
             } else {
                 echo "ADD BLOG FAILED";
