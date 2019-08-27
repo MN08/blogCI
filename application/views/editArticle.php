@@ -1,29 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php $this->load->view('partial/header'); ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>From Edit Article</title>
-</head>
+<header class="masthead" style="background-image: url('<?php echo base_url(); ?>assets/img/post-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>Add New Article</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
-<body>
-    <h1>Update article</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <form method="POST" class="form-group">
+                <label for="">Title</label><br>
+                <input type="text" name="title" value=<?php echo $blog['title']; ?> class="form-control"><br>
 
-    <form method="POST" action="">
-        <label for="">Title</label><br>
-        <input type="text" name="title" value=<?php echo $blog['title']; ?>><br>
+                <label for="">Content</label><br>
+                <textarea name="content" id="content" cols="30" rows="10" class="form-control"><?php echo $blog['content']; ?></textarea><br>
 
-        <label for="">Content</label><br>
-        <textarea name="content" id="content" cols="30" rows="10"><?php echo $blog['content']; ?></textarea><br>
+                <label for="">URL</label><br>
+                <input type="text" name="url" value=<?php echo $blog['url']; ?> class="form-control"><br>
 
-        <label for="">URL</label><br>
-        <input type="text" name="url" value=<?php echo $blog['url']; ?>><br>
+                <br>
+                <button type="submit" class="btn btn-primary float-right">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
 
-        <br>
-        <button type="submit">Uodate</button>
-    </form>
-</body>
 
-</html>
+<?php $this->load->view('partial/footer'); ?>
