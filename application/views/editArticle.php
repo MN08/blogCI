@@ -16,18 +16,21 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <form method="POST" class="form-group">
-                <label for="">Title</label><br>
-                <input type="text" name="title" value=<?php echo $blog['title']; ?> class="form-control"><br>
+            <?php echo form_open_multipart() ?>
+            <label for="">Title</label><br>
+            <?php echo form_input('title', $blog['title'], 'class="form-control"') ?>
 
-                <label for="">Content</label><br>
-                <textarea name="content" id="content" cols="30" rows="10" class="form-control"><?php echo $blog['content']; ?></textarea><br>
+            <label for="">Content</label><br>
+            <?php echo form_textarea('content', $blog['content'], 'class="form-control"') ?>
 
-                <label for="">URL</label><br>
-                <input type="text" name="url" value=<?php echo $blog['url']; ?> class="form-control"><br>
+            <label for="">URL</label><br>
+            <?php echo form_input('url', $blog['url'], 'class="form-control"') ?>
 
-                <br>
-                <button type="submit" class="btn btn-primary float-right">Update</button>
+            <label for="">cover</label><br>
+            <?php echo form_upload('cover', $blog['cover'], 'class="form-control"') ?>
+
+            <br>
+            <button type="submit" class="btn btn-primary float-right">Update</button>
             </form>
         </div>
     </div>

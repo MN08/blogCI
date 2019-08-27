@@ -6,8 +6,6 @@ class Blog extends CI_Controller
     {
         parent::__construct();
 
-        $this->load->database();
-        $this->load->helper('url');
         $this->load->model('Blog_model');
     }
 
@@ -34,6 +32,20 @@ class Blog extends CI_Controller
             $data['content'] = $this->input->post('content');
             $data['url'] = $this->input->post('url');
 
+            $config['upload_path']          = './uploads/';
+            $config['allowed_types']        = 'gif|jpg|png';
+            $config['max_size']             = 100;
+            $config['max_width']            = 1024;
+            $config['max_height']           = 768;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('cover')) {
+                echo $this->upload->display_errors();
+            } else {
+                $data['cover'] = $this->upload->data()['file_name'];
+            }
+
             $id =  $this->Blog_model->insertBlog($data);
             if ($id) {
                 echo "ADD BLOG SUCCESS";
@@ -56,6 +68,20 @@ class Blog extends CI_Controller
             $udata['title'] = $this->input->post('title');
             $udata['content'] = $this->input->post('content');
             $udata['url'] = $this->input->post('url');
+
+            $config['upload_path']          = './uploads/';
+            $config['allowed_types']        = 'gif|jpg|png';
+            $config['max_size']             = 100;
+            $config['max_width']            = 1024;
+            $config['max_height']           = 768;
+
+            $this->load->library('upload', $config);
+            $this->upload->do_upload('cover');
+
+            if (!empty($this->upload->data()['file_name'])) {
+                $udata['cover'] = $this->upload->data()['file_name'];
+            }
+
 
             $id =  $this->Blog_model->updateBlog($id, $udata);
             if ($id) {

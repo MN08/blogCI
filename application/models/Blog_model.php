@@ -7,32 +7,32 @@ class Blog_model extends CI_Model
     {
         $filter = $this->input->get('search');
         $this->db->like('title', $filter);
-        return $this->db->get("myblogs");
+        return $this->db->get("articles");
     }
 
     public function getDetail($field, $value)
     {
         $this->db->where($field, $value);
-        return $this->db->get('myblogs');
+        return $this->db->get('articles');
     }
 
     public function insertBlog($data)
     {
-        $this->db->insert('myblogs', $data);
+        $this->db->insert('articles', $data);
         return $this->db->insert_id();
     }
 
     public function updateBlog($id, $udata)
     {
         $this->db->where('id', $id);
-        $this->db->update('myblogs', $udata);
+        $this->db->update('articles', $udata);
         return $this->db->affected_rows();
     }
 
     public function deleteBlog($id)
     {
         $this->db->where('id', $id);
-        $this->db->delete('myblogs');
+        $this->db->delete('articles');
         return $this->db->affected_rows();
     }
 }

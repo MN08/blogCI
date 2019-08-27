@@ -16,10 +16,14 @@
 </header>
 <!-- Main Content -->
 <div class="container">
-    <form action="">
-        <input type="text" name="search">
-        <button type="submit">Search</button>
-    </form>
+
+    <div class="offset-2 col-lg-5 col-md-5">
+        <form class="form-group">
+            <input type="text" name="search" class="form-control">
+            <button type="submit" class="btn btn-info">Search</button>
+        </form>
+    </div>
+
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             <?php foreach ($blogs as $key => $value) : ?>
@@ -33,7 +37,7 @@
                 <p class="post-meta">
                     <a href="<?php echo site_url('blog/edit/' . $value['id']); ?>">Edit</a>
                     <a href="<?php echo site_url('blog/delete/' . $value['id']); ?>">Delete</a>
-                    Posted on <?php echo $value['time']; ?>
+                    Posted on <?php echo $value['date']; ?>
                 </p>
                 <?php echo $value['content']; ?>
             </div>
