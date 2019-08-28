@@ -18,6 +18,10 @@
 <div class="container">
 
     <div class="offset-2 col-lg-5 col-md-5">
+
+
+        <?php echo $this->session->flashdata("message"); ?>
+
         <form class="form-group">
             <input type="text" name="search" class="form-control">
             <button type="submit" class="btn btn-info">Search</button>
@@ -35,14 +39,37 @@
                     </h2>
                 </a>
                 <p class="post-meta">
-                    <a href="<?php echo site_url('blog/edit/' . $value['id']); ?>">Edit</a>
-                    <a href="<?php echo site_url('blog/delete/' . $value['id']); ?>">Delete</a>
                     Posted on <?php echo $value['date']; ?>
+                    <?php if (isset($_SESSION['username'])) : ?>
+                    <a href="<?php echo site_url('blog/edit/' . $value['id']); ?>">Edit</a>
+                    <a href="<?php echo site_url('blog/delete/' . $value['id']); ?>" onclick="return confirm('did you click delete button ?')">Delete</a>
+                    <?php endif; ?>
                 </p>
                 <?php echo $value['content']; ?>
             </div>
             <hr>
             <?php endforeach; ?>
+
+            <!-- <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav> -->
+            <div>
+                <?php echo $this->pagination->create_links(); ?>
+            </div>
 
         </div>
     </div>

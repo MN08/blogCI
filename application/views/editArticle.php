@@ -16,18 +16,22 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="alret alert-warning">
+                <?php echo validation_errors() ?>
+            </div>
+
             <?php echo form_open_multipart() ?>
             <label for="">Title</label><br>
-            <?php echo form_input('title', $blog['title'], 'class="form-control"') ?>
+            <?php echo form_input('title', set_value('title', $blog['title']), 'class="form-control"') ?>
 
             <label for="">Content</label><br>
-            <?php echo form_textarea('content', $blog['content'], 'class="form-control"') ?>
+            <?php echo form_textarea('content', set_value('content', $blog['content']), 'class="form-control"') ?>
 
             <label for="">URL</label><br>
-            <?php echo form_input('url', $blog['url'], 'class="form-control"') ?>
+            <?php echo form_input('url', set_value('url', $blog['url']), 'class="form-control"') ?>
 
             <label for="">cover</label><br>
-            <?php echo form_upload('cover', $blog['cover'], 'class="form-control"') ?>
+            <?php echo form_upload('cover', set_value('cover', $blog['cover']), 'class="form-control"') ?>
 
             <br>
             <button type="submit" class="btn btn-primary float-right">Update</button>

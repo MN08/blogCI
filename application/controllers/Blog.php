@@ -9,9 +9,17 @@ class Blog extends CI_Controller
         $this->load->model('Blog_model');
     }
 
-    public function index()
+    public function index($offset = 0)
     {
-        $query = $this->Blog_model->getBlog();
+        $this->load->library('pagination');
+
+        $config['base_url'] = site_url('blog/index');
+        $config['total_rows'] = $this->Blog_model->getAllBlog();
+        $config['per_page'] = 3;
+
+        $this->pagination->initialize($config);
+
+        $query = $this->Blog_model->getBlog($config['per_page'], $offset);
         $data['blogs'] = $query->result_array();
 
         $this->load->view('blog', $data);
@@ -27,7 +35,11 @@ class Blog extends CI_Controller
 
     public function insert()
     {
-        if ($this->input->post()) {
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('content', 'Content', 'required');
+        $this->form_validation->set_rules('url', 'URL', 'required|alpha_dash');
+
+        if ($this->form_validation->run() === TRUE) {
             $data['title'] = $this->input->post('title');
             $data['content'] = $this->input->post('content');
             $data['url'] = $this->input->post('url');
@@ -48,10 +60,11 @@ class Blog extends CI_Controller
 
             $id =  $this->Blog_model->insertBlog($data);
             if ($id) {
-                echo "ADD BLOG SUCCESS";
+                $this->session->set_flashdata("message", '<div class="alert alert-info">ADD BLOG SUCCESS </div>');
                 redirect('/');
             } else {
-                echo "ADD BLOG FAILED";
+                $this->session->set_flashdata("message", '<div class="alert alert-danger">ADD BLOG FAILED </div>');
+                redirect('/');
             }
         }
 
@@ -64,7 +77,12 @@ class Blog extends CI_Controller
         $query = $this->Blog_model->getDetail('id', $id);
         $data['blog'] = $query->row_array();
 
-        if ($this->input->post()) {
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('content', 'Content', 'required');
+        $this->form_validation->set_rules('url', 'URL', 'required|alpha_dash');
+
+        if ($this->form_validation->run() === TRUE) {
+
             $udata['title'] = $this->input->post('title');
             $udata['content'] = $this->input->post('content');
             $udata['url'] = $this->input->post('url');
@@ -85,9 +103,11 @@ class Blog extends CI_Controller
 
             $id =  $this->Blog_model->updateBlog($id, $udata);
             if ($id) {
-                echo "EDIT BLOG SUCCESS";
+                $this->session->set_flashdata("message", '<div class="alert alert-info">EDIT BLOG SUCCESS </div>');
+                redirect('/');
             } else {
-                echo "EDIT BLOG FAILED";
+                $this->session->set_flashdata("message", '<div class="alert alert-danger">EDIT BLOG FAILED </div>');
+                redirect('/');
             }
         }
 
@@ -96,7 +116,38 @@ class Blog extends CI_Controller
 
     public function delete($id)
     {
-        $this->Blog_model->deleteBlog($id);
+        $result = $this->Blog_model->deleteBlog($id);
+        if ($result) {
+            $this->session->set_flashdata("message", '<div class="alert alert-info">DELETE BLOG SUCCESS </div>');
+            redirect('/');
+        } else {
+            $this->session->set_flashdata("message", '<div class="alert alert-danger">DELETE BLOG FAILED </div>');
+            redirect('/');
+        }
+        redirect('/');
+    }
+
+    public function login()
+    {
+        if ($this->input->post()) {
+
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+
+            if ($username == 'admin' && $password == 'admin') {
+                $_SESSION['username'] = 'admin';
+                redirect('/');
+            } else {
+                $this->session->set_flashdata("message", '<div class="alert alert-danger">Username and password incorrect </div>');
+                redirect('blog/login');
+            }
+        }
+        $this->load->view("login");
+    }
+
+    public function logout()
+    {
+        $this->session->sess_destroy();
         redirect('/');
     }
 }

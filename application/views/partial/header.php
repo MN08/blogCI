@@ -37,13 +37,20 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo site_url('blog/index/'); ?>">Home</a>
-                        <!-- </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="post.html">Sample Post</a>
-                    </li> -->
+                    </li>
+
+                    <?php if (isset($_SESSION['username'])) : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo site_url('blog/insert/'); ?>">Tambah Artikel</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo site_url('blog/logout/'); ?>">Log Out</a>
+                    </li>
+                    <?php else : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo site_url('blog/login/'); ?>">Login</a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
